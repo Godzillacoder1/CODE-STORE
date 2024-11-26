@@ -1,6 +1,7 @@
 import wikipedia  # For fetching information from Wikipedia
 import pywhatkit as kit  # To automate tasks (like playing YouTube videos, etc.)
-import pyjokes  # To tell jokes
+import webbrowser
+import pyjokes
 
 
 # Function to make the AI speak (this time we'll just print the response)
@@ -40,8 +41,11 @@ def jarvis():
 
         # Open YouTube search
         elif "open youtube" in query:
-            speak("Opening YouTube...")
-            kit.playonyt("youtube")  # Default to opening YouTube; can be customized for specific searches
+            url = 'https://www.youtube.com'
+
+            # open it
+            webbrowser.open(url)
+        # Default to opening YouTube; can be customized for specific searches
 
         # Search Google for a query
         elif "search" in query:
