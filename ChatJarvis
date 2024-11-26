@@ -1,0 +1,74 @@
+import wikipedia  # For fetching information from Wikipedia
+import pywhatkit as kit  # To automate tasks (like playing YouTube videos, etc.)
+import pyjokes  # To tell jokes
+
+
+# Function to make the AI speak (this time we'll just print the response)
+def speak(text):
+    print(f"Jarvis: {text}")
+
+
+# Function to handle Jarvis commands
+def jarvis():
+    speak("Hello, I am Jarvis. How can I assist you today?")
+
+    while True:
+        # Get user input (text-based commands)
+        query = input("You: ").lower()
+
+        # Command to exit the loop
+        if "exit" in query or "quit" in query:
+            speak("Goodbye! Have a great day.")
+            break
+
+        # Tell a joke
+        elif "tell me a joke" in query:
+            joke = pyjokes.get_joke()
+            speak(joke)
+
+        # Get a Wikipedia summary for a query
+        elif "what is" in query or "who is" in query:
+            speak("Searching Wikipedia...")
+            query = query.replace("what is", "").replace("who is", "")
+            try:
+                summary = wikipedia.summary(query, sentences=2)
+                speak(summary)
+            except wikipedia.exceptions.DisambiguationError as e:
+                speak(f"Can you be more specific? I found multiple results: {e.options}")
+            except wikipedia.exceptions.HTTPTimeoutError:
+                speak("Sorry, I couldn't fetch the information right now.")
+
+        # Open YouTube search
+        elif "open youtube" in query:
+            speak("Opening YouTube...")
+            kit.playonyt("youtube")  # Default to opening YouTube; can be customized for specific searches
+
+        # Search Google for a query
+        elif "search" in query:
+            speak("Searching Google...")
+            query = query.replace("search", "")
+            kit.search(query)
+
+        # Play music on YouTube
+        elif "play music" in query:
+            speak("Playing music for you...")
+            kit.playonyt("music")
+
+        # Tell the current time
+        elif "what time is it" in query:
+            from datetime import datetime
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S")
+            speak(f"The time is {current_time}")
+
+        # Greet the user
+        elif "hello" in query:
+            speak("Hello! How can I assist you today?")
+
+        # Handle unknown commands
+        else:
+            speak("Sorry, I didn't understand that.")
+
+
+# Run Jarvis
+jarvis()
