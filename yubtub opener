@@ -1,0 +1,7 @@
+import webbrowser
+
+# le url
+url = 'https://www.youtube.com'
+
+# open it
+webbrowser.open(url)
