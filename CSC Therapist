@@ -1,0 +1,27 @@
+import webbrowser
+
+print("Hello, feeling down lately?")
+print("Well, not to worry because I'm here!")
+response = int(input("So, tell me, are you: 1. SAD, 2. INJURED, 3. UNKNOWN "))
+
+if response == 3:
+   
+    url = 'https://www.youtube.com/watch?v=paWE-GvDO1c'
+    webbrowser.open(url)
+
+elif response == 2:
+
+    url = 'https://www.google.com/search?q=how+to+treat+injuries'
+    webbrowser.open(url)
+
+elif response == 1:
+    print("Why do you feel sad?")
+    response2 = int(input("Is it because of 1. Exams or 2. Other reasons? "))
+
+    if response2 == 1:
+        print("Study hard, youngling! It only gets harder from here")
+    elif response2 == 2:
+        print("Some of the greatest humans faced the greatest struggles.")
+
+else:
+    print("Sorry I could not understand, try to input 1 , 2, or 3")
