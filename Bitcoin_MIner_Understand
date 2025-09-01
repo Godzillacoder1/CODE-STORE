@@ -1,0 +1,132 @@
+Imports & Setup                                                                                                                                                    
+tkinter → GUI (buttons, labels, windows)
+random → randomly choose coins
+json → save/load game progress
+time → for auto-mining updates
+dataclasses → manage game data neatly
+
+Game Data
+RARITIES → coin types (Common, Rare, Legendary, etc.)
+ASSETS → auto-mining machines you can buy
+UPGRADES → upgrades (luck & power)
+SAVE_FILE_DEFAULT → default save file
+TICK_MS → game loop interval (10 updates/sec)
+Helper Functions
+weighted_choice → randomly chooses item based on weight
+format_money → formats large numbers (1,000 → 1K)
+
+Game State
+Stores player progress: balance, inventory, assets, upgrades
+Tracks mines per click, total mined, auto-mining buffer
+
+Methods:
+total_mines_per_sec() → calculates auto-mining rate
+luck_multiplier() → luck from upgrades
+value_multiplier() → coin value multiplier from uprades
+
+Main Game Class (CryptoMinerGame)
+Sets up GUI and game loop using ttk.Frame
+GUI Construction
+Top bar: balance, mining rate, total mined, save/load/reset
+Left panel: Mine button, sell coins, inventory list
+Middle panel: Assets (buy auto-miners), Upgrades (luck & power)
+Right panel: Info/instructions
+Status bar: shows game messages
+
+Mining Mechanics
+roll_coin(mines) → randomly chooses coins based on luck
+grant_drops(drops) → adds coins to inventory
+mine_click() → triggered by MINE button
+auto_mine_tick(dt_sec) → auto-mines coins per second
+coins_value() → calculates total coin value
+sell_all() → converts inventory to balance
+
+Shop Mechanics
+asset_cost(key) → calculates asset cost
+buy_asset(key) → buy assets and deduct balance
+upgrade_cost(key) → calculates upgrade cost
+buy_upgrade(key) → buy upgrades and deduct balance
+
+UI Updates
+refresh_inventory_box() → updates coin inventory list
+_update_all_labels() → updates all labels and buttons
+
+Game Loop
+_schedule_tick() → schedules tick every 100ms
+_tick() → auto-mines, updates GUI, reschedules next tick
+
+Save / Load / Reset
+save() → saves game state to JSON
+load() → loads game state from JSON
+reset_confirm() → resets progress after confirmation
+
+Main Function
+main() → initializes Tkinter window and starts game loop
+
+Gameplay Summary
+Click MINE or buy assets for auto-mining
+Collect coins of varying rarities
+Sell coins to get balance
+Buy upgrades to improve luck or coin value
+Save/load progress
+__________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Main Window
+tk.Tk() creates the main window
+Sets title and minimum size
+
+Main Frame
+ttk.Frame as the main container
+Expands in all directions (sticky="nsew")
+
+Top Bar
+Horizontal frame at the top
+Contains:
+Balance (self.balance_var)
+Mining rate (self.rate_var)
+Total mines (self.mined_var)
+Buttons: Save, Load, Reset
+
+Main Columns
+Frame holding three columns:
+Left: Mining section
+Middle: Shop (Assets + Upgrades)
+Right: Info panel
+
+Left Panel – Mining
+ttk.LabelFrame titled “Mining”
+Contains:
+Mine button (⛏️ MINE)
+Sell button (💰 Sell Coins)
+Inventory Listbox showing collected coins
+
+Middle Panel – Shop
+Assets (LabelFrame): auto-mining machines
+Each row: asset name, info label (owned, cost, per second), buy button
+Upgrades (LabelFrame): Luck Booster, Power Upgrade
+Each row: upgrade name, info label (level, cost, effect), buy button
+
+Right Panel – Info
+LabelFrame titled “Info”
+Text widget for instructions and information (scrollable, multi-line)
+
+Status Bar
+Label at the bottom showing game messages
+Linked to StringVar() (self.status_var)
+
+Button States & Labels
+Buttons enable/disable based on balance
+Inventory Listbox dynamically updated
+Labels linked to StringVar() for automatic updates
+
+Layout Strategy
+Uses grid system (row, column, sticky)
+columnconfigure and rowconfigure to allow resizing
+LabelFrame groups related widgets
+Padding (padx, pady) for clean layout
+
+UI Summary
+Top Bar – balance, rate, total, save/load/reset
+Left Column – Mining & Inventory
+Middle Column – Assets (top) and Upgrades (bottom)
+Right Column – Info text box
+Bottom – Status bar
